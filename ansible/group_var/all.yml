@@ -1,0 +1,18 @@
+---
+# Variables globales pour le déploiement TYPO3
+
+# Variables de base de données
+db_host: localhost
+db_name: nom_base_de_donnees
+db_user: utilisateur_db
+db_password: mot_de_passe_db
+
+# Variables de configuration TYPO3
+typo3_install_dir: /var/www/html
+typo3_fileadmin_dir: /var/www/html/fileadmin
+typo3_admin_user: admin
+typo3_admin_password: mot_de_passe_admin
+
+# Autres variables spécifiques au déploiement TYPO3
+variable1: valeur1
+variable2: valeur2

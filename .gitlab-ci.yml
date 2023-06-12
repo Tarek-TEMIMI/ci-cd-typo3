@@ -1,0 +1,38 @@
+stages:
+  - build
+  - test
+  - deploy-dev
+  - deploy-test
+  - deploy-prod
+
+# Étape de build : Installer les dépendances TYPO3 et compiler les fichiers statiques si nécessaire
+build:
+  stage: build
+  script:
+    - composer install --no-interaction
+    - yarn install --frozen-lockfile
+    - yarn build
+
+# Étape de test : Exécuter les tests unitaires, d'intégration ou de performance si nécessaire
+test:
+  stage: test
+  script:
+    - vendor/bin/phpunit
+
+# Étape de déploiement sur le serveur de développement
+deploy-dev:
+  stage: deploy-dev
+  script:
+    - ansible-playbook -i inventory.ini playbook.yml --limit server-dev
+
+# Étape de déploiement sur le serveur de test
+deploy-test:
+  stage: deploy-test
+  script:
+    - ansible-playbook -i inventory.ini playbook.yml --limit server-test
+
+# Étape de déploiement sur le serveur de production
+deploy-prod:
+  stage: deploy-prod
+  script:
+    - ansible-playbook -i inventory.ini playbook.yml --limit server-prod

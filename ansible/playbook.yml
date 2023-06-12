@@ -1,0 +1,43 @@
+---
+- name: Déploiement TYPO3
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Copier le code TYPO3
+      copy:
+        src: /chemin/vers/votre/projet
+        dest: /var/www/html
+        owner: utilisateur_web
+        group: groupe_web
+        mode: "0755"
+      notify: Redémarrer Nginx
+
+    - name: Copier la configuration Nginx
+      copy:
+        src: /chemin/vers/votre/fichier/default.conf
+        dest: /etc/nginx/conf.d/default.conf
+        owner: root
+        group: root
+        mode: "0644"
+      notify: Redémarrer Nginx
+
+    - name: Copier la configuration MySQL
+      copy:
+        src: /chemin/vers/votre/fichier/my.cnf
+        dest: /etc/mysql/my.cnf
+        owner: root
+        group: root
+        mode: "0644"
+      notify: Redémarrer MySQL
+
+  handlers:
+    - name: Redémarrer Nginx
+      service:
+        name: nginx
+        state: restarted
+
+    - name: Redémarrer MySQL
+      service:
+        name: mysql
+        state: restarted
